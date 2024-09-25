@@ -64,12 +64,13 @@ class SubmitReviewOrPublishComponent extends Component {
             buttonLabel={i18next.t("Publish without community")}
             permissions={permissions}
             publishWithoutCommunity
+            record={record}
             {...ui}
           />
         </>
       );
     } else {
-      result = <PublishButton permissions={permissions} {...ui} />;
+      result = <PublishButton record={record} permissions={permissions} {...ui} />;
     }
     return result;
   }

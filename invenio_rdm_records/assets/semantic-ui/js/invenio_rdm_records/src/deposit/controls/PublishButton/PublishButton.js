@@ -60,8 +60,9 @@ class PublishButtonComponent extends Component {
     return !allCompleted;
   };
 
-  hasPermission = (permissions) => {
-    return permissions.can_publish;
+  hasPermission = (record) => {
+    const link = record?.links?.publish;
+    return link !== undefined && link !== null;
   };
 
   getDisabledButtonPopupText = (hasPublishPermission) => {
@@ -82,6 +83,7 @@ class PublishButtonComponent extends Component {
       formik,
       publishModalExtraContent,
       permissions,
+      record,
       ...ui
     } = this.props;
     const { isConfirmModalOpen } = this.state;
@@ -89,7 +91,7 @@ class PublishButtonComponent extends Component {
 
     const uiProps = _omit(ui, ["dispatch"]);
 
-    const hasPublishPermission = this.hasPermission(permissions);
+    const hasPublishPermission = this.hasPermission(record);
     const publishDisabled = this.isDisabled(
       values,
       isSubmitting,
@@ -174,6 +176,7 @@ PublishButtonComponent.propTypes = {
   publishModalExtraContent: PropTypes.string,
   filesState: PropTypes.object,
   permissions: PropTypes.object.isRequired,
+  record: PropTypes.object.isRequired,
 };
 
 PublishButtonComponent.defaultProps = {
@@ -189,6 +192,7 @@ const mapStateToProps = (state) => ({
   publishModalExtraContent: state.deposit.config.publish_modal_extra,
   filesState: state.files,
   permissions: state.deposit.permissions,
+  record: state.deposit.record, // not sure about this. Usually the record is only passed down. Should be discussed.
 });
 
 export const PublishButton = connect(
